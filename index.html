@@ -4,6 +4,9 @@
 
         <title>Fifa</title>
         <style>
+            body {
+                text-align: center;
+            }
             table, th, td {
                 border: 1px solid black;
                 border-collapse: collapse;
@@ -14,18 +17,32 @@
         </style>
     </head>
     <body>
+            <form id="search" style="display: inline-block">
+            <input type="text" id="country-field" placeholder="Държава"/>
+            <input type="text" id="team-name-field" placeholder="Отбор"/>
+            <input type="text" id="corners-field" placeholder="Корнери"/>
+            <input type="text" id="passes-field" placeholder="Подавания"/>
+            <input type="text" id="clearances-field" placeholder="Изчиствания"/>
+            <input type="text" id="yellow-cards-field" placeholder="Жълти картони"/>
+            <input type="text" id="red-cards-field" placeholder="Червени картони"/>
+            <input type="text" id="tactics-field" placeholder="Система/Стратегия"/>
+        </form>
         <table id="result" style="border: 1px solid black; border-collapse: collapse; margin-left: auto; margin-right: auto">
-            <tr id="table_header">
-                <th>Фаза</th>
-                <th>Домакин</th>
-                <th>Гост</th>
-                <th>Място на срещата</th>
-                <th>Терен</th>
-                <th>Резултат</th>
-                <th>Голова разлика</th>
-                <th>Победител</th>
-                <th>Дата на срещата</th>
-            </tr>
+            <thead>
+                <tr id="table_header">
+                    <th>Фаза</th>
+                    <th>Домакин</th>
+                    <th>Гост</th>
+                    <th>Място на срещата</th>
+                    <th>Терен</th>
+                    <th>Резултат</th>
+                    <th>Голова разлика</th>
+                    <th>Победител</th>
+                    <th>Дата на срещата</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
         </table>
         <script type="text/javascript" charset="utf-8" src="ajax.js"></script>
         <script type="text/javascript" charset="utf-8" src="script.js"></script>
