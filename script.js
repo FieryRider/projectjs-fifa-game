@@ -3,9 +3,11 @@ var matchesTable = document.querySelector('#result > tbody');
 var matchesInfo = []
 var filteredMatchesInfo = []
 
-document.getElementById('modal').style.display = 'block';
+//document.getElementById('modal').style.display = 'block';
 document.getElementById('close-button').addEventListener('click', function() {
-    document.getElementById('modal').style.display = 'none';
+    Array.from(document.getElementsByClassName('modal')).forEach((el) => {
+        el.style.display = 'none';
+    });
 })
 
 filterBar.forEach((filterField) => {
@@ -42,7 +44,8 @@ filterBar.forEach((filterField) => {
 
 Ajax.get('http://worldcup.sfg.io/matches/', function(response) {
     matchesInfo = response;
-    displayMatchesInformation(matchesInfo);
+    filteredMatchesInfo = matchesInfo;
+    displayMatchesInformation(filteredMatchesInfo);
 });
 
 
@@ -96,6 +99,18 @@ function addMatchToMatchesTable(matchInfo) {
     columns['winnerCol'].innerHTML = matchInfo['winner'];
     columns['dateCol'].innerHTML = matchInfo['date'];
 
+    columns['venueCol'].className = 'venue-column';
+    columns['locationCol'].className = 'location-column';
+    columns['homeTeamCol'].className = 'home-team-column';
+    columns['awayTeamCol'].className = 'away-team-column';
+
+    columns['locationCol'].style.cursor = 'default';
+    columns['homeTeamCol'].style.cursor = 'default';
+    columns['awayTeamCol'].style.cursor = 'default';
+
+    columns['locationCol'].addEventListener('click', displayLocationInfo);
+
+
     for (let column of Object.values(columns)) {
         row.appendChild(column);
     }
@@ -107,3 +122,17 @@ function clearMatchesTable() {
     matchesTable.parentNode.replaceChild(newTbody, matchesTable);
     matchesTable = newTbody;
 }
+
+function displayLocationInfo(ev) {
+    let stadiumField = document.querySelector('#location-modal > .modal-content > #stadium > #stadium-field');
+    let cityField = document.querySelector('#location-modal > .modal-content > #city > #city-field');
+    let temperatureField = document.querySelector('#location-modal > .modal-content > #termperature > #termperature-field');
+    let matchIndex = ev.target.parentNode.rowIndex - 1;
+
+    cityField.innerHTML = filteredMatchesInfo[matchIndex]['venue'];
+    stadiumField.innerHTML = filteredMatchesInfo[matchIndex]['location'];
+    console.log(filteredMatchesInfo[matchIndex])
+    temperatureField.innerHTML = `${filteredMatchesInfo[matchIndex]['weather']['temp_celsius']}&#176;C`;
+    document.getElementById('location-modal').style.display = 'block';
+}
+
