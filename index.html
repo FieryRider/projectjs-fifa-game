@@ -32,14 +32,21 @@
                 width: 70%;
                 box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0, 7px 20px, 0 rgba(0, 0, 0, 0.2);
             }
-            #close-button {
+            ul {
+                margin-top: auto,
+                list-style-type: none
+            }
+            .close-button {
                 color: #ccc;
                 float: right;
                 font-size: 30px
             }
-            #close-button:hover {
+            .close-button:hover {
                 color: #000;
                 cursor: pointer
+            }
+            .hovarable #hover {
+                background-color: #dddddd
             }
         </style>
     </head>
@@ -74,7 +81,7 @@
 
         <div class="modal" id="location-modal">
             <div class="modal-content">
-                <span id="close-button">&times;</span>
+                <span class="close-button">&times;</span>
                 <div id="stadium">
                     Stadium Name: <span id="stadium-field"></span>
                 </div>
@@ -89,9 +96,16 @@
 
         <div class="modal" id="team-modal">
             <div class="modal-content">
-                <span id="close-button">&times;</span>
-                <div id="name"></div>
-                <table id="players"></table>
+                <span class="close-button">&times;</span>
+                <div id="team">
+                    Team name: <span id="team-name-field"></span>
+                </div>
+                <div>Players:</div>
+                <ul id="players">
+                </ul>
+                <div>Goals:</div>
+                <ul id="goals">
+                </ul>
             </div>
         </div>
 

@@ -4,11 +4,14 @@ var matchesInfo = []
 var filteredMatchesInfo = []
 
 //document.getElementById('modal').style.display = 'block';
-document.getElementById('close-button').addEventListener('click', function() {
-    Array.from(document.getElementsByClassName('modal')).forEach((el) => {
-        el.style.display = 'none';
+let closeButtons = document.getElementsByClassName('close-button');
+Array.from(closeButtons).forEach((el) => {
+    el.addEventListener('click', function() {
+        Array.from(document.getElementsByClassName('modal')).forEach((el) => {
+            el.style.display = 'none';
+        });
     });
-})
+});
 
 filterBar.forEach((filterField) => {
     filterField.addEventListener('keyup', function(ev) {
@@ -108,8 +111,13 @@ function addMatchToMatchesTable(matchInfo) {
     columns['homeTeamCol'].style.cursor = 'default';
     columns['awayTeamCol'].style.cursor = 'default';
 
-    columns['locationCol'].addEventListener('click', displayLocationInfo);
+    columns['locationCol'].classList.add('hovarable');
+    columns['homeTeamCol'].classList.add('hovarable');
+    columns['awayTeamCol'].classList.add('hovarable');
 
+    columns['locationCol'].addEventListener('click', displayLocationInfo);
+    columns['homeTeamCol'].addEventListener('click', displayTeamInfo);
+    columns['awayTeamCol'].addEventListener('click', displayTeamInfo);
 
     for (let column of Object.values(columns)) {
         row.appendChild(column);
@@ -131,8 +139,62 @@ function displayLocationInfo(ev) {
 
     cityField.innerHTML = filteredMatchesInfo[matchIndex]['venue'];
     stadiumField.innerHTML = filteredMatchesInfo[matchIndex]['location'];
-    console.log(filteredMatchesInfo[matchIndex])
     temperatureField.innerHTML = `${filteredMatchesInfo[matchIndex]['weather']['temp_celsius']}&#176;C`;
     document.getElementById('location-modal').style.display = 'block';
 }
 
+function displayTeamInfo(ev) {
+    let teamNameField = document.querySelector('#team-modal > .modal-content > #team > #team-name-field');
+    let playersUl = document.querySelector('#team-modal > .modal-content > #players');
+    let goalsUl = document.querySelector('#team-modal > .modal-content > #goals');
+    let matchIndex = ev.target.parentNode.rowIndex - 1;
+
+    let team = '';
+    let teamStats = '';
+    let teamEvents = '';
+    let teamType = {
+        'host': 0,
+        'guest': 1
+    }
+
+    let guestOrHost;
+    if (ev.target.cellIndex == 1) {
+        guestOrHost = teamType.host;
+    } else if (ev.target.cellIndex == 2) {
+        guestOrHost = teamType.guest;
+    }
+
+    switch(guestOrHost) {
+        case teamType.host:
+            team = filteredMatchesInfo[matchIndex]['home_team'];
+            teamStats = filteredMatchesInfo[matchIndex]['home_team_statistics'];
+            teamEvents = filteredMatchesInfo[matchIndex]['home_team_events'];
+            break;
+        case teamType.guest:
+            team = filteredMatchesInfo[matchIndex]['away_team'];
+            teamStats = filteredMatchesInfo[matchIndex]['away_team_statistics'];
+            teamEvents = filteredMatchesInfo[matchIndex]['away_team_events'];
+            break;
+    }
+
+    let teamCode = team['code'];
+
+    teamNameField.innerHTML = team['country'];
+    playersUl.innerHTML = "";
+    goalsUl.innerHTML = "";
+    teamStats['starting_eleven'].forEach((player) => {
+        let playerLi = document.createElement('li');
+        playerLi.innerHTML = player['name'];
+        playersUl.appendChild(playerLi);
+    });
+
+    teamEvents.forEach((ev) => {
+        let isGoal = (ev['type_of_event'] == 'goal') || (ev['type_of_event'] == 'goal-own');
+        if (isGoal) {
+            let goalLi = document.createElement('li');
+            goalLi.innerHTML = ev['time'];
+            goalsUl.appendChild(goalLi);
+        }
+    });
+    document.getElementById('team-modal').style.display = 'block';
+}
