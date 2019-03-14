@@ -14,6 +14,33 @@
                 padding-right: 5px;
                 text-align: center;
             }
+            .modal {
+                display: none;
+                position: fixed;
+                z-index: 1;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                overflow: auto;
+                background-color: rgba(0, 0, 0, 0.5);
+            }
+            .modal-content {
+                background-color: #f4f4f4;
+                margin: 20% auto;
+                padding: 20px;
+                width: 70%;
+                box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0, 7px 20px, 0 rgba(0, 0, 0, 0.2);
+            }
+            #close-button {
+                color: #ccc;
+                float: right;
+                font-size: 30px
+            }
+            #close-button:hover {
+                color: #000;
+                cursor: pointer
+            }
         </style>
     </head>
     <body>
@@ -44,6 +71,23 @@
             <tbody>
             </tbody>
         </table>
+
+        <div class="modal" id="location-modal">
+            <div class="modal-content">
+                <span id="close-button">&times;</span>
+                <div id="name"></div>
+                <div id="city"></div>
+            </div>
+        </div>
+
+        <div class="modal" id="team-modal">
+            <div class="modal-content">
+                <span id="close-button">&times;</span>
+                <div id="name"></div>
+                <table id="players"></table>
+            </div>
+        </div>
+
         <script type="text/javascript" charset="utf-8" src="ajax.js"></script>
         <script type="text/javascript" charset="utf-8" src="script.js"></script>
     </body>

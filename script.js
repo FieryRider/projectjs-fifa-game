@@ -3,6 +3,11 @@ var matchesTable = document.querySelector('#result > tbody');
 var matchesInfo = []
 var filteredMatchesInfo = []
 
+document.getElementById('modal').style.display = 'block';
+document.getElementById('close-button').addEventListener('click', function() {
+    document.getElementById('modal').style.display = 'none';
+})
+
 filterBar.forEach((filterField) => {
     filterField.addEventListener('keyup', function(ev) {
         filteredMatchesInfo = []
@@ -33,7 +38,6 @@ filterBar.forEach((filterField) => {
         });
         displayMatchesInformation(filteredMatchesInfo);
     });
-
 });
 
 Ajax.get('http://worldcup.sfg.io/matches/', function(response) {
